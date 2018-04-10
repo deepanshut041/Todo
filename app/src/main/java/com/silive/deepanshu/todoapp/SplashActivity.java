@@ -33,47 +33,40 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_splash);
-        new Handler().postDelayed(new Runnable() {
-
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void run() {
-                mFirebaseAuth = FirebaseAuth.getInstance();
-                mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                        if (firebaseUser != null) {
-                            String username = firebaseUser.getDisplayName();
-                            String uid = firebaseUser.getUid();
-                            String email = firebaseUser.getEmail();
-                            String photo_url = "http://www.africanleadershipawards.com/wp-content/uploads/2017/07/no-avatar-user.jpg";
-                            Uri photo = firebaseUser.getPhotoUrl();
-                            if (photo != null) {
-                                photo_url = firebaseUser.getPhotoUrl().toString();
-                            }
-                            onSignedInInitialize(uid, username, email, photo_url);
-                            addUser(uid, username, email, photo_url);
-                            Intent i = new Intent(SplashActivity.this, MainActivity.class);
-                            startActivity(i);
-                            finish();
-                        } else {
-                            startActivityForResult(
-                                    AuthUI.getInstance()
-                                            .createSignInIntentBuilder()
-                                            .setIsSmartLockEnabled(false)
-                                            .setAvailableProviders(
-                                                    Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(),
-
-                                                            new AuthUI.IdpConfig.GoogleBuilder().build()))
-                                            .setTheme(R.style.YellowTheme)
-                                            .build(),
-                                    RC_SIGN_IN);
-                        }
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    String username = firebaseUser.getDisplayName();
+                    String uid = firebaseUser.getUid();
+                    String email = firebaseUser.getEmail();
+                    String photo_url = "http://www.africanleadershipawards.com/wp-content/uploads/2017/07/no-avatar-user.jpg";
+                    Uri photo = firebaseUser.getPhotoUrl();
+                    if(photo != null){
+                        photo_url = firebaseUser.getPhotoUrl().toString();
                     }
-                };
-            }
-        }, SPLASH_TIME_OUT);
+                    onSignedInInitialize(uid, username, email, photo_url);
+                    addUser(uid, username, email, photo_url);
+                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                } else {
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)
+                                    .setAvailableProviders(
+                                            Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(),
 
+                                                    new AuthUI.IdpConfig.GoogleBuilder().build()))
+                                    .setTheme(R.style.YellowTheme)
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
     }
 
     @Override
@@ -109,20 +102,19 @@ public class SplashActivity extends AppCompatActivity {
         editor.putString("user_id", user_id);
         editor.putString("user_email", user_email);
         editor.putString("user_name", user_name);
-        editor.putString("user_image", user_image);
-        Log.e("user image", user_image);
+        editor.putString("user_image",user_image );
+        Log.e("user image",user_image);
         editor.apply();
     }
-
-    public void addUser(final String uid, final String user_name, final String email, final String imgUrl) {
+    public void addUser(final String uid, final String user_name,final String email,final String imgUrl){
         final FirebaseCrud firebaseCurd = new FirebaseCrud(SplashActivity.this);
         DatabaseReference mUserReference = firebaseCurd.getmUsersReference().child(uid);
         mUserReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserModel userModel = dataSnapshot.getValue(UserModel.class);
-                if (userModel == null) {
-                    UserModel addUserModel = new UserModel(uid, user_name, email, imgUrl);
+                if (userModel == null){
+                    UserModel addUserModel = new UserModel(uid,user_name,email,imgUrl);
                     firebaseCurd.addUserModel(addUserModel);
                 }
             }
@@ -133,6 +125,7 @@ public class SplashActivity extends AppCompatActivity {
                 Log.w("Firebase", "Failed to read value.", error.toException());
             }
         });
+
 
 
     }
