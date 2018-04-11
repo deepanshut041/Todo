@@ -9,21 +9,19 @@ import java.util.Date;
 public class TodoModel {
     private int id;
     private String title;
-    private String description;
+    private String keyword;
     private Boolean notification;
     private Date created_at;
-    private Date updated_at;
 
     public TodoModel() {
     }
 
-    public TodoModel(int id, String title, String description, Boolean notification, Date created_at, Date updated_at) {
+    public TodoModel(int id, String title, String keyword, Boolean notification, Date created_at) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.keyword = keyword;
         this.notification = notification;
         this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     public int getId() {
@@ -42,13 +40,6 @@ public class TodoModel {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Boolean getNotification() {
         return notification;
@@ -66,11 +57,11 @@ public class TodoModel {
         this.created_at = created_at;
     }
 
-    public Date getUpdated_at() {
-        return updated_at;
+    public String getKeyword() {
+        return keyword;
     }
 
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }
