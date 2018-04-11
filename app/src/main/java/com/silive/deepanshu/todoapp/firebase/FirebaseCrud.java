@@ -34,7 +34,7 @@ public class FirebaseCrud {
         mUserReference = mDatabaseReference.child("User").child(user_id);
         mUsersReference = mDatabaseReference.child("User");
         mDataReference = mDatabaseReference.child("Data");
-        mToDoListReference = mDataReference.child(user_id).child("WishList");
+        mToDoListReference = mDataReference.child(user_id).child("data");
 
     }
     //Get Refrences

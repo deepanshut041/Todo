@@ -20,6 +20,10 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SearchActivity" />
+        <provider
+            android:name=".data.DataContentProvider"
+            android:authorities="com.silive.deepanshu.todoapp"
+            android:exported="false" />
         <activity android:name=".EventActivity"></activity>
     </application>
 

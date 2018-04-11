@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 /**
  * Created by deepanshu on 11/4/18.
@@ -84,7 +85,7 @@ public class DataContentProvider extends ContentProvider {
                     returnUri = ContentUris.withAppendedId(DbContract.ApiData.CONTENT_URI, id);
                 }
                 else {
-                    throw  new android.database.SQLException("Falide to add celibrity") ;
+                    throw  new android.database.SQLException("Failed to add todo") ;
                 }
                 break;
             default:
@@ -103,6 +104,21 @@ public class DataContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+        int count = 0;
+        Uri returnUri;
+        switch (match){
+            case API_DATA:
+                String id = uri.getPathSegments().get(1);
+                count = db.update(DbContract.ApiData.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknow Uri: " + uri);
+
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+        return count;
     }
 }

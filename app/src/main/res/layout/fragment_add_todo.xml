@@ -41,13 +41,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkboxShowYear"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="12dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"
         android:padding="0dp"
-        android:layout_marginBottom="30dp"
-        android:scaleX=".7"
-        android:scaleY=".7" />
+        android:scaleX=".8"
+        android:scaleY=".8" />
 
     <EditText
         android:layout_width="match_parent"
@@ -81,14 +80,6 @@
 
     </TimePicker>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
-        android:text="Submit"
-        android:textColor="#fff"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
 

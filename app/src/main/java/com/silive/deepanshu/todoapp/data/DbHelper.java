@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper  extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "movieDb.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public DbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +26,7 @@ public class DbHelper  extends SQLiteOpenHelper {
                 DbContract.ApiData.COLUMN_KEYWORD + " TEXT NOT NULL," +
                 DbContract.ApiData.COLUMN_NOTIFICATION + " BOOLEAN NOT NULL, " +
                 DbContract.ApiData.COLUMN_DATE +  " TEXT NOT NULL, " +
-                " UNIQUE ("+ DbContract.ApiData.COLUMN_ID +
+                " UNIQUE ("+ DbContract.ApiData.COLUMN_NAME +
                 ") ON CONFLICT IGNORE"
                 +")";
         db.execSQL(SQL_MOVIEDB);
