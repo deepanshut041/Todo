@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_container"
+    android:layout_width="wrap_content"
+    android:layout_height="64dp"
+    android:background="@color/colorPrimaryDark"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp">
+
+    <LinearLayout
+        android:id="@+id/group_1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clipToPadding="false"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingEnd="3dp"
+        android:background="@color/colorPrimaryDark"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingStart="3dp">
+
+        <TextView
+            android:id="@+id/dateDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:singleLine="true"
+            android:textColor="#fff"
+            android:background="@color/colorBackground"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/dateMonth"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:elevation="2dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:singleLine="true"
+            android:background="@color/material_lime_a700"
+            android:textColor="#ffffff"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/alarmImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingBottom="5dp"
+        android:paddingEnd="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp"
+        android:scaleX=".85"
+        android:scaleY=".85"
+        />
+
+    <LinearLayout
+        android:id="@+id/days_age_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/alarmImage"
+        android:layout_toStartOf="@+id/alarmImage"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp">
+
+        <TextView
+            android:id="@+id/textViewAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:singleLine="true"
+            android:text="Gift"
+            android:textColor="@color/colorBackground"
+            android:layout_marginRight="4dp"
+            android:drawablePadding="6dp"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/days_remaining"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/colorBackground"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/group_1"
+        android:layout_toRightOf="@id/group_1"
+        android:layout_toLeftOf="@id/days_age_layout"
+        android:layout_toStartOf="@id/days_age_layout"
+        android:gravity="center_vertical"
+        android:paddingEnd="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingStart="5dp"
+        android:singleLine="true"
+        android:textColor="@color/colorBackground"
+        android:textSize="20sp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#1effffff" />
+
+</RelativeLayout>

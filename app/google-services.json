@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "531614362226",
+    "firebase_url": "https://silive-todo.firebaseio.com",
+    "project_id": "silive-todo",
+    "storage_bucket": "silive-todo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531614362226:android:062bd8043811bc6c",
+        "android_client_info": {
+          "package_name": "com.silive.deepanshu.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531614362226-8cfis28p1aqc9bpu16j7oo7adpp2bnk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.silive.deepanshu.todoapp",
+            "certificate_hash": "4f0886bd0de7fa30c973fd86ba4654dcd32c22c2"
+          }
+        },
+        {
+          "client_id": "531614362226-l8nj14t9e8dofdhqqgjc0hhduha4t94i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEzUPqzh6BOqfDEuf3p_6rsOfZN39v-YQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531614362226-l8nj14t9e8dofdhqqgjc0hhduha4t94i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

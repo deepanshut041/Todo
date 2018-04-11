@@ -1,17 +1,29 @@
 package com.silive.deepanshu.todoapp;
 
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.silive.deepanshu.todoapp.Adapter.TodoListAdapter;
+import com.silive.deepanshu.todoapp.data.DbContract;
 import com.silive.deepanshu.todoapp.fragments.AddTodo;
 import com.silive.deepanshu.todoapp.models.TodoModel;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
+    RecyclerView recyclerViewMoreList;
     private FloatingActionButton floatingActionButton;
     private AddTodo addEditFragment;
+    private TodoListAdapter todoListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 showAddToDoFragment();
             }
         });
+
+        recyclerViewMoreList = (RecyclerView) findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManagerMovieList = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerViewMoreList.setLayoutManager(layoutManagerMovieList);
+        recyclerViewMoreList.setItemAnimator(new DefaultItemAnimator());
+        GetFilterData getFilterData = new GetFilterData();
+        getFilterData.execute();
     }
 
 
@@ -42,5 +61,41 @@ public class MainActivity extends AppCompatActivity {
         addEditFragment.setArguments(bundle);
         // Pass bundle to Dialog, get FragmentManager and show
         addEditFragment.show(getSupportFragmentManager(), "AddEditBirthdayFragment");
+    }
+
+    public class GetFilterData extends AsyncTask<Void,Void,Cursor> {
+
+        @Override
+        protected Cursor doInBackground(Void... params) {
+            String WHERE = null;
+            String args[] = null;
+            return getContentResolver().query(DbContract.ApiData.CONTENT_URI,
+                    null,
+                    WHERE,
+                    args,
+                    null);
+        }
+        protected void onPostExecute(Cursor cursor) {
+            ArrayList<TodoModel> todoModels = new ArrayList<>();
+//            while (cursor.moveToNext()){
+//                TodoModel listDataModel = new TodoModel(cursor.getString(cursor.getColumnIndex(DbContract.ApiData._ID)),cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NAME))
+//                        ,cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_KEYWORD)),
+//                        Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NOTIFICATION))),
+//                        Date.parse(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE))));
+//                dataList.add(listDataModel);
+//            }
+            for (int i=0; i < 8; i++){
+                Date date = new Date();
+                date.setDate(15);
+                date.setMonth(5);
+                date.setYear(2018);
+                TodoModel todoModel = new TodoModel(1, "Birthday" + i, "brday", true, date);
+                todoModels.add( todoModel);
+            }
+
+//            cursor.close();
+            todoListAdapter = new TodoListAdapter(todoModels, getApplicationContext());
+            recyclerViewMoreList.setAdapter(todoListAdapter);
+        }
     }
 }
