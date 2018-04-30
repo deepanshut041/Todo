@@ -13,6 +13,7 @@ import com.silive.deepanshu.todoapp.R;
 import com.silive.deepanshu.todoapp.models.TodoModel;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -56,7 +57,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
     public void onBindViewHolder(final todoListViewHolder holder, final int position) {
         final TodoModel todoModel = moreListArrayList.get(position);
         holder.nameTextView.setText(todoModel.getTitle());
-        Date date = todoModel.getCreated_at();
+        Calendar date = todoModel.getCreated_at();
         holder.dateTextView.setText(5+"");
         holder.monthTextView.setText("Apr");
 //        holder.daysLeft.setText("10");

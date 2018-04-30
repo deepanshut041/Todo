@@ -84,14 +84,6 @@ public class MainActivity extends AppCompatActivity {
 //                        Date.parse(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE))));
 //                dataList.add(listDataModel);
 //            }
-            for (int i=0; i < 8; i++){
-                Date date = new Date();
-                date.setDate(15);
-                date.setMonth(5);
-                date.setYear(2018);
-                TodoModel todoModel = new TodoModel(1, "Birthday" + i, "brday", true, date);
-                todoModels.add( todoModel);
-            }
 
 //            cursor.close();
             todoListAdapter = new TodoListAdapter(todoModels, getApplicationContext());

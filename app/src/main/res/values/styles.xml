@@ -21,11 +21,11 @@
     </style>
 
     <style name="DialogTheme" parent="AlertDialog.AppCompat">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/material_yellow_700</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowFullscreen">false</item>
         <item name="android:listViewStyle">@style/Widget.AppCompat.ListView</item>
-        <item name="android:textColor">#fff</item>
+        <item name="android:textColor">@color/colorBackground</item>
         <item name="android:textColorSecondary">@color/colorBackground</item>
         <item name="android:textColorHighlight">?attr/colorPrimary</item>
     </style>

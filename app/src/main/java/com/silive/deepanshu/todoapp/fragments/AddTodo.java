@@ -54,13 +54,9 @@ public class AddTodo extends DialogFragment {
     public final static String UID_KEY = "key_uid";
     public final static String NAME_KEY = "key_position";
     public final static String KEYWORD_KEY = "key_keyword";
-
     private int ADD_OR_EDIT_MODE;
     public final static int MODE_ADD = 0;
     public final static int MODE_EDIT = 1;
-
-    private final int DIALOG_WIDTH_SIZE = 220;
-
 
     private Bundle bundle;
 
@@ -78,9 +74,30 @@ public class AddTodo extends DialogFragment {
         return new AddTodo();
     }
 
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//
+//        // Detect which state mode Dialog should be in
+//        bundle = this.getArguments();
+//
+//        // Null check, then set mode reference
+//        if (bundle != null) {
+//            ADD_OR_EDIT_MODE = bundle.getInt(MODE_KEY, MODE_ADD);
+//
+//        } else { // Fallback to default mode
+//            ADD_OR_EDIT_MODE = MODE_ADD;
+//        }
+//    }
+
+    @NonNull
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(getActivity(), R.style.DialogFragmentTheme));
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        view = inflater.inflate(R.layout.fragment_add_todo, null);
 
         // Detect which state mode Dialog should be in
         bundle = this.getArguments();
@@ -92,17 +109,6 @@ public class AddTodo extends DialogFragment {
         } else { // Fallback to default mode
             ADD_OR_EDIT_MODE = MODE_ADD;
         }
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(
-                new ContextThemeWrapper(getActivity(), R.style.DialogFragmentTheme));
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        view = inflater.inflate(R.layout.fragment_add_todo, null);
 
 
         final DatePicker datePicker = (DatePicker) view.findViewById(R.id.datePicker);
@@ -219,16 +225,16 @@ public class AddTodo extends DialogFragment {
                         boolean includeYear = checkYearToggle.isChecked();
 
                         // Build date object which will be used by new Birthday
-                        Date dateOfBirth = new Date();
-                        dateOfBirth.setYear(year);
-                        dateOfBirth.setMonth(month);
-                        dateOfBirth.setDate(dateOfMonth);
+                        Calendar date = Calendar.getInstance();
+                        date.set(Calendar.YEAR, year);
+                        date.set(Calendar.MONTH, month-1);
+                        date.set(Calendar.DAY_OF_MONTH, dateOfMonth);
 
                         // Send the positive button event back to BirthdayListActivity
                         TodoModel todoModel = new TodoModel();
                         todoModel.setTitle(editText.getText().toString());
                         todoModel.setKeyword(editText1.getText().toString());
-                        todoModel.setCreated_at(dateOfBirth);
+                        todoModel.setCreated_at(date);
                         todoModel.setNotification(true);
 
                         FirebaseCrud firebaseCrud = new FirebaseCrud(getActivity());

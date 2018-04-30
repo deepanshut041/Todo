@@ -1,5 +1,6 @@
 package com.silive.deepanshu.todoapp.models;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -11,12 +12,12 @@ public class TodoModel {
     private String title;
     private String keyword;
     private Boolean notification;
-    private Date created_at;
+    private Calendar created_at;
 
     public TodoModel() {
     }
 
-    public TodoModel(int id, String title, String keyword, Boolean notification, Date created_at) {
+    public TodoModel(int id, String title, String keyword, Boolean notification, Calendar created_at) {
         this.id = id;
         this.title = title;
         this.keyword = keyword;
@@ -49,11 +50,11 @@ public class TodoModel {
         this.notification = notification;
     }
 
-    public Date getCreated_at() {
+    public Calendar getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Date created_at) {
+    public void setCreated_at(Calendar created_at) {
         this.created_at = created_at;
     }
 
