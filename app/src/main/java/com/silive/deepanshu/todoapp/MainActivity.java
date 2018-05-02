@@ -1,5 +1,6 @@
 package com.silive.deepanshu.todoapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewMoreList.setItemAnimator(new DefaultItemAnimator());
         GetFilterData getFilterData = new GetFilterData();
         getFilterData.execute();
+
+        startService(new Intent(this, MyService.class));
     }
 
 

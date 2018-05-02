@@ -250,7 +250,7 @@ public class AddTodo extends DialogFragment {
                         // Build date object which will be used by new Birthday
                         Calendar datetime = Calendar.getInstance();
                         datetime.set(Calendar.YEAR, year);
-                        datetime.set(Calendar.MONTH, month-1);
+                        datetime.set(Calendar.MONTH, month);
                         datetime.set(Calendar.DAY_OF_MONTH, dateOfMonth);
                         datetime.set(Calendar.HOUR, hour);
                         datetime.set(Calendar.MINUTE, minute);

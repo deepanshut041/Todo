@@ -100,7 +100,25 @@ public class DataContentProvider extends ContentProvider {
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int match = sUriMatcher.match(uri);
+        long id = 0;
+        Uri returnUri ;
+        switch (match){
+            case API_DATA:
+                id = db.delete(DbContract.ApiData.TABLE_NAME, selection, selectionArgs);
+                if (id > 0){
+                    returnUri = ContentUris.withAppendedId(DbContract.ApiData.CONTENT_URI, id);
+                }
+                else {
+                    throw  new android.database.SQLException("Failed to delete") ;
+                }
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknow Uri: " + uri);
+
+        }
+        return (int)id;
     }
 
     @Override
