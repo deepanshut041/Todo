@@ -96,7 +96,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    public void onSignedInInitialize(String user_name, String user_id, String user_email, String user_image) {
+    public void onSignedInInitialize(String user_id, String user_name, String user_email, String user_image) {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("MyPref", 0);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("user_id", user_id);

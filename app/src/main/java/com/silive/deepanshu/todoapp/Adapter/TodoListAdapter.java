@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
         TextView daysLeft;
         ImageView gift;
         ImageView edit;
+        View divider;
 
         public todoListViewHolder(View itemView) {
             super(itemView);
@@ -57,6 +59,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
             edit = (ImageView) itemView.findViewById(R.id.edit);
             gift = (ImageView) itemView.findViewById(R.id.gift);
             keywordTextView = (TextView) itemView.findViewById(R.id.keyword);
+            divider = (View) itemView.findViewById(R.id.divider);
         }
     }
 
@@ -94,6 +97,12 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
             }
         });
 
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
+        ViewGroup.LayoutParams params = holder.divider.getLayoutParams();
+        
+        holder.divider.setLayoutParams(params);
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

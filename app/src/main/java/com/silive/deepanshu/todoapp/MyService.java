@@ -3,12 +3,16 @@ package com.silive.deepanshu.todoapp;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.google.firebase.database.DatabaseReference;
 import com.silive.deepanshu.todoapp.data.DbContract;
+import com.silive.deepanshu.todoapp.firebase.FirebaseCrud;
 import com.silive.deepanshu.todoapp.models.TodoModel;
 import com.silive.deepanshu.todoapp.views.NotificationBuilder;
 
@@ -90,6 +94,7 @@ public class MyService extends Service {
         }
         cursor.moveToFirst();
         cursor.close();
+        updateTodos(todoModels);
         for (int i = 0; i <todoModels.size(); i++){
             long currentTime = new Date().getTime();
             final Calendar datetime = Calendar.getInstance();
@@ -110,6 +115,9 @@ public class MyService extends Service {
                         int id = getContentResolver().delete(DbContract.ApiData.CONTENT_URI,
                                 WHERE2,
                                 args2);
+                        FirebaseCrud firebaseCrud = new FirebaseCrud(this);
+                        DatabaseReference databaseReference = firebaseCrud.getmToDoListReference();
+                        databaseReference.child(todoModels.get(i).getId()+"").removeValue();
                         Log.e("EVENT DELETED", id+"  " + todoModels.get(i).getId()+"");
                     }
                 } else {
@@ -119,5 +127,35 @@ public class MyService extends Service {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void updateTodos(ArrayList<TodoModel> todoModels){
+        FirebaseCrud firebaseCrud = new FirebaseCrud(this);
+        if (todoModels.size() == 0){
+
+            todoModels = firebaseCrud.getTodoList();
+            for (TodoModel todoModel: todoModels){
+                databaseInsert(todoModel);  
+            }
+        } else {
+            DatabaseReference databaseReference = firebaseCrud.getmToDoListReference();
+            databaseReference.removeValue();
+            for (TodoModel todoModel : todoModels) {
+                firebaseCrud.addTodoListModel(todoModel);
+            }
+        }
+    }
+
+    private Uri databaseInsert(TodoModel dataModel) {
+        ContentValues values = new ContentValues();
+        if(dataModel.getId() != 0){
+            values.put(DbContract.ApiData._ID, dataModel.getId());
+        }
+        values.put(DbContract.ApiData.COLUMN_NAME, dataModel.getTitle());
+        values.put(DbContract.ApiData.COLUMN_KEYWORD, dataModel.getKeyword());
+        values.put(DbContract.ApiData.COLUMN_DATE, dataModel.getCreated_at().toString());
+        values.put(DbContract.ApiData.COLUMN_NOTIFICATION, dataModel.getKeyword());
+        Uri uri = getContentResolver().insert(DbContract.ApiData.CONTENT_URI, values);
+        return uri;
     }
 }
