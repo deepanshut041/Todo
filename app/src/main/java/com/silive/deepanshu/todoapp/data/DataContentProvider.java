@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * Created by deepanshu on 11/4/18.
@@ -110,7 +111,8 @@ public class DataContentProvider extends ContentProvider {
         Uri returnUri;
         switch (match){
             case API_DATA:
-                String id = uri.getPathSegments().get(1);
+//                String id = uri.getPathSegments().get(1);
+                Log.i("uri", uri.toString());
                 count = db.update(DbContract.ApiData.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:

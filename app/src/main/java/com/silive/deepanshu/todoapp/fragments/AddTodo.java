@@ -74,6 +74,8 @@ public class AddTodo extends DialogFragment {
 
     private CheckBox checkYearToggle;
 
+    private int todoKey;
+
     public AddTodo() {
 
     }
@@ -139,6 +141,8 @@ public class AddTodo extends DialogFragment {
             boolean showYear = bundle.getBoolean(SHOW_YEAR_KEY, true);
             checkYearToggle.setChecked(showYear);
             setYearFieldVisibility(showYear, datePicker);
+
+            todoKey = bundle.getInt(UID_KEY);
 
             EditText editText = (EditText) view.findViewById(R.id.editTextName);
             EditText editText1 = (EditText) view.findViewById(R.id.editText);
@@ -263,6 +267,7 @@ public class AddTodo extends DialogFragment {
 
                         FirebaseCrud firebaseCrud = new FirebaseCrud(getActivity());
                         if (ADD_OR_EDIT_MODE == MODE_EDIT) {
+                            todoModel.setId(todoKey);
                             databaseUpdate(todoModel);
                             firebaseCrud.addTodoListModel(todoModel);
 
@@ -326,7 +331,7 @@ public class AddTodo extends DialogFragment {
         values.put(DbContract.ApiData.COLUMN_KEYWORD, dataModel.getKeyword());
         values.put(DbContract.ApiData.COLUMN_DATE, dataModel.getCreated_at().toString());
         values.put(DbContract.ApiData.COLUMN_NOTIFICATION, dataModel.getKeyword());
-        int count = getActivity().getContentResolver().update(DbContract.ApiData.CONTENT_URI, values, null, null);
+        int count = getActivity().getContentResolver().update(DbContract.ApiData.CONTENT_URI, values, DbContract.ApiData._ID+" = ?", new String[] {String.valueOf(dataModel.getId())});
     }
 
 }

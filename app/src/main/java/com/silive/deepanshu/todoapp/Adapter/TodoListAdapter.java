@@ -111,6 +111,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
                 bundle.putInt(AddTodo.MINUTE_KEY, datetime.get(Calendar.MINUTE));
                 bundle.putString(AddTodo.NAME_KEY, todoModel.getTitle());
                 bundle.putString(AddTodo.KEYWORD_KEY, todoModel.getKeyword());
+                bundle.putInt(AddTodo.UID_KEY, todoModel.getId());
                 addEditFragment.setArguments(bundle);
                 addEditFragment.show(((MainActivity)context).getSupportFragmentManager(), "AddEditBirthdayFragment");
             }

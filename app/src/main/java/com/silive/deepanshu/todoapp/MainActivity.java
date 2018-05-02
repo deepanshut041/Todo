@@ -84,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE)));
                 todoModels.add(listDataModel);
             }
-
-//            cursor.close();
+//            if( cursor != null &&  ){
+//
+//            }
+            cursor.moveToFirst();
+            cursor.close();
             todoListAdapter = new TodoListAdapter(todoModels, MainActivity.this);
             recyclerViewMoreList.setAdapter(todoListAdapter);
         }
