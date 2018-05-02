@@ -77,16 +77,16 @@ public class MainActivity extends AppCompatActivity {
         }
         protected void onPostExecute(Cursor cursor) {
             ArrayList<TodoModel> todoModels = new ArrayList<>();
-//            while (cursor.moveToNext()){
-//                TodoModel listDataModel = new TodoModel(cursor.getString(cursor.getColumnIndex(DbContract.ApiData._ID)),cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NAME))
-//                        ,cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_KEYWORD)),
-//                        Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NOTIFICATION))),
-//                        Date.parse(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE))));
-//                dataList.add(listDataModel);
-//            }
+            while (cursor.moveToNext()){
+                TodoModel listDataModel = new TodoModel(cursor.getInt(cursor.getColumnIndex(DbContract.ApiData._ID)),cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NAME))
+                        ,cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_KEYWORD)),
+                        Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_NOTIFICATION))),
+                        cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE)));
+                todoModels.add(listDataModel);
+            }
 
 //            cursor.close();
-            todoListAdapter = new TodoListAdapter(todoModels, getApplicationContext());
+            todoListAdapter = new TodoListAdapter(todoModels, MainActivity.this);
             recyclerViewMoreList.setAdapter(todoListAdapter);
         }
     }

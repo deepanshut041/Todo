@@ -9,16 +9,20 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +41,10 @@ import com.silive.deepanshu.todoapp.data.DbHelper;
 import com.silive.deepanshu.todoapp.firebase.FirebaseCrud;
 import com.silive.deepanshu.todoapp.models.TodoModel;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -54,6 +60,8 @@ public class AddTodo extends DialogFragment {
     public final static String UID_KEY = "key_uid";
     public final static String NAME_KEY = "key_position";
     public final static String KEYWORD_KEY = "key_keyword";
+    public final static String HOUR_KEY = "key_hour";
+    public final static String MINUTE_KEY = "key_minute";
     private int ADD_OR_EDIT_MODE;
     public final static int MODE_ADD = 0;
     public final static int MODE_EDIT = 1;
@@ -74,22 +82,23 @@ public class AddTodo extends DialogFragment {
         return new AddTodo();
     }
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//
-//        // Detect which state mode Dialog should be in
-//        bundle = this.getArguments();
-//
-//        // Null check, then set mode reference
-//        if (bundle != null) {
-//            ADD_OR_EDIT_MODE = bundle.getInt(MODE_KEY, MODE_ADD);
-//
-//        } else { // Fallback to default mode
-//            ADD_OR_EDIT_MODE = MODE_ADD;
-//        }
-//    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        // Detect which state mode Dialog should be in
+        bundle = this.getArguments();
+
+        // Null check, then set mode reference
+        if (bundle != null) {
+            ADD_OR_EDIT_MODE = bundle.getInt(MODE_KEY, MODE_ADD);
+
+        } else { // Fallback to default mode
+            ADD_OR_EDIT_MODE = MODE_ADD;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -114,6 +123,8 @@ public class AddTodo extends DialogFragment {
         final DatePicker datePicker = (DatePicker) view.findViewById(R.id.datePicker);
         setUpDatePicker(datePicker);
 
+        final TimePicker timePicker = (TimePicker) view.findViewById(R.id.timePicker);
+
         checkYearToggle = (CheckBox) view.findViewById(R.id.checkboxShowYear);
         checkYearToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -132,16 +143,21 @@ public class AddTodo extends DialogFragment {
             EditText editText = (EditText) view.findViewById(R.id.editTextName);
             EditText editText1 = (EditText) view.findViewById(R.id.editText);
             editText.setText(bundle.getString(NAME_KEY));
-            editText.setText(bundle.getString(KEYWORD_KEY));
+            editText1.setText(bundle.getString(KEYWORD_KEY));
 
             // Move cursor to end of text
             editText.setSelection(editText.getText().length());
+            editText1.setSelection(editText1.getText().length());
 
             // Set DatePicker
             int spinnerYear =  bundle.getInt(YEAR_KEY);
             int spinnerMonth =  bundle.getInt(MONTH_KEY);
             int spinnerDate =  bundle.getInt(DATE_KEY);
+            int spinnerHour = bundle.getInt(HOUR_KEY);
+            int spinnerMinute = bundle.getInt(MINUTE_KEY);
             datePicker.updateDate(spinnerYear, spinnerMonth, spinnerDate);
+            timePicker.setHour(spinnerHour);
+            timePicker.setMinute(spinnerMinute);
         }
 
         // Set view, then add buttons and title
@@ -199,7 +215,7 @@ public class AddTodo extends DialogFragment {
         final EditText editText = (EditText) view.findViewById(R.id.editTextName);
         final EditText editText1 = (EditText) view.findViewById(R.id.editText);
         final DatePicker datePicker = (DatePicker) view.findViewById(R.id.datePicker);
-
+        final TimePicker timePicker = (TimePicker) view.findViewById(R.id.timePicker);
         // Use my custom onFocusChange function.
         View.OnFocusChangeListener onFocusChangeListener = new MyFocusChangeListener();
         editText.setOnFocusChangeListener(onFocusChangeListener);
@@ -212,6 +228,7 @@ public class AddTodo extends DialogFragment {
             // This is it! The done button listener which we override onStart to use.
             final Button positiveButton = dialog.getButton(Dialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.M)
                 @Override
                 public void onClick(View v) {
 
@@ -222,18 +239,25 @@ public class AddTodo extends DialogFragment {
                         int dateOfMonth = datePicker.getDayOfMonth();
                         int month = datePicker.getMonth();
                         int year = datePicker.getYear();
+                        int hour = timePicker.getHour();
+                        int minute = timePicker.getMinute();
                         boolean includeYear = checkYearToggle.isChecked();
 
                         // Build date object which will be used by new Birthday
-                        Calendar date = Calendar.getInstance();
-                        date.set(Calendar.YEAR, year);
-                        date.set(Calendar.MONTH, month-1);
-                        date.set(Calendar.DAY_OF_MONTH, dateOfMonth);
-
+                        Calendar datetime = Calendar.getInstance();
+                        datetime.set(Calendar.YEAR, year);
+                        datetime.set(Calendar.MONTH, month-1);
+                        datetime.set(Calendar.DAY_OF_MONTH, dateOfMonth);
+                        datetime.set(Calendar.HOUR, hour);
+                        datetime.set(Calendar.MINUTE, minute);
                         // Send the positive button event back to BirthdayListActivity
                         TodoModel todoModel = new TodoModel();
                         todoModel.setTitle(editText.getText().toString());
                         todoModel.setKeyword(editText1.getText().toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String date = sdf.format(datetime.getTime());
+                        Log.e("date ---------", datetime.getTime().toString());
+                        Log.e("date ---------", date);
                         todoModel.setCreated_at(date);
                         todoModel.setNotification(true);
 

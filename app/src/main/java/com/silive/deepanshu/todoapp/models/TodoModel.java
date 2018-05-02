@@ -12,12 +12,12 @@ public class TodoModel {
     private String title;
     private String keyword;
     private Boolean notification;
-    private Calendar created_at;
+    private String created_at;
 
     public TodoModel() {
     }
 
-    public TodoModel(int id, String title, String keyword, Boolean notification, Calendar created_at) {
+    public TodoModel(int id, String title, String keyword, Boolean notification, String created_at) {
         this.id = id;
         this.title = title;
         this.keyword = keyword;
@@ -41,6 +41,13 @@ public class TodoModel {
         this.title = title;
     }
 
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 
     public Boolean getNotification() {
         return notification;
@@ -50,19 +57,11 @@ public class TodoModel {
         this.notification = notification;
     }
 
-    public Calendar getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Calendar created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
-    }
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 }
