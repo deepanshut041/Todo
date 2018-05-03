@@ -24,7 +24,10 @@ public class EventActivity extends AppCompatActivity {
         web_view.getSettings().setUseWideViewPort(true);
         web_view.getSettings().setBuiltInZoomControls(true);
         web_view.setWebViewClient(new myWebClient());
-        String keyword = "Birthday";
+
+        Bundle bundle = this.getIntent().getExtras();
+
+        String keyword = bundle.getString("keyword");
         web_view.loadUrl("https://duckduckgo.com/?q=gift+for+" + keyword + "&t=hf&ia=web");
     }
 

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.silive.deepanshu.todoapp.EventActivity;
@@ -93,6 +96,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, EventActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("keyword", todoModel.getKeyword());
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
@@ -100,8 +106,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.todoLi
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        ViewGroup.LayoutParams params = holder.divider.getLayoutParams();
-        
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.divider.getLayoutParams();
+        params.setMargins(0, 0, (int)dpWidth * (moreListArrayList.size() - position) / moreListArrayList.size(), 0);
         holder.divider.setLayoutParams(params);
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override

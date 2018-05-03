@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.silive.deepanshu.todoapp.MainActivity;
 import com.silive.deepanshu.todoapp.R;
 import com.silive.deepanshu.todoapp.data.DbContract;
 import com.silive.deepanshu.todoapp.data.DbHelper;
@@ -277,6 +278,7 @@ public class AddTodo extends DialogFragment {
                             todoModel.setId(id);
                             firebaseCrud.addTodoListModel(todoModel);
                         }
+                        ((MainActivity) getActivity()).updateData();
                         // Finally close the dialog, and breath a sign of relief
                         dialog.dismiss();
 

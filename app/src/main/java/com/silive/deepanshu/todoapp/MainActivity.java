@@ -46,10 +46,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManagerMovieList = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewMoreList.setLayoutManager(layoutManagerMovieList);
         recyclerViewMoreList.setItemAnimator(new DefaultItemAnimator());
-        GetFilterData getFilterData = new GetFilterData();
-        getFilterData.execute();
-
-        startService(new Intent(this, MyService.class));
+        updateData();
     }
 
 
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     null,
                     WHERE,
                     args,
-                    null);
+                    DbContract.ApiData.COLUMN_DATE+" ASC");
         }
         protected void onPostExecute(Cursor cursor) {
             ArrayList<TodoModel> todoModels = new ArrayList<>();
@@ -87,13 +84,16 @@ public class MainActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(DbContract.ApiData.COLUMN_DATE)));
                 todoModels.add(listDataModel);
             }
-//            if( cursor != null &&  ){
-//
-//            }
             cursor.moveToFirst();
             cursor.close();
             todoListAdapter = new TodoListAdapter(todoModels, MainActivity.this);
             recyclerViewMoreList.setAdapter(todoListAdapter);
         }
+    }
+
+    public void updateData(){
+        GetFilterData getFilterData = new GetFilterData();
+        getFilterData.execute();
+//        todoListAdapter.notifyItemChanged();
     }
 }

@@ -67,6 +67,8 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }
         };
+
+        startService(new Intent(this, MyService.class));
     }
 
     @Override
